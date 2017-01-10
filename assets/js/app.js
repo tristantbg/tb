@@ -4,6 +4,7 @@ var width,
     docH,
     isMobile = false,
     headerOn = false,
+    gridOn = false,
     mouse,
     $root = '/';
 $(function() {
@@ -65,61 +66,61 @@ $(function() {
                     var anchor = document.querySelector('#selected-projects');
                     smoothScroll.animateScroll(height / 1.3);
                 });
+                MorphSVGPlugin.convertToPath("circle, ellipse");
+                var intro = new TimelineMax({
+                    paused: true,
+                    repeat: -1,
+                    yoyo: true
+                });
+                intro.to('#el2', 10, {
+                    rotation: -180,
+                    transformOrigin: 'center',
+                    morphSVG: {
+                        shape: '#el4'
+                    },
+                    ease: Power1.easeInOut
+                }).to('#el2', 20, {
+                    rotation: 60,
+                    scaleY: -1,
+                    transformOrigin: 'center',
+                    morphSVG: {
+                        shape: '#el3'
+                    },
+                    ease: Power1.easeInOut
+                }).to('#el2', 30, {
+                    rotation: -50,
+                    scaleY: 1,
+                    transformOrigin: 'center',
+                    morphSVG: {
+                        shape: '#el5'
+                    },
+                    ease: Power1.easeInOut
+                }).to('#el2', 10, {
+                    rotation: 10,
+                    scaleY: -1,
+                    transformOrigin: 'center',
+                    morphSVG: {
+                        shape: '#el2'
+                    },
+                    ease: Power1.easeInOut
+                }).to('#el2', 30, {
+                    rotation: -60,
+                    scaleY: 1,
+                    transformOrigin: 'center',
+                    morphSVG: {
+                        shape: '#el4'
+                    },
+                    ease: Power1.easeInOut
+                }).to('#el2', 20, {
+                    rotation: 45,
+                    scaleY: 1,
+                    transformOrigin: 'center',
+                    morphSVG: {
+                        shape: '#el3'
+                    },
+                    ease: Power1.easeInOut
+                });
                 $(window).load(function() {
-                    MorphSVGPlugin.convertToPath("circle, ellipse");
-                    var intro = new TimelineMax({
-                        paused: true,
-                        repeat: -1,
-                        yoyo: true
-                    });
-                    intro.to('#el2', 10, {
-                        rotation: -180,
-                        transformOrigin: 'center',
-                        morphSVG: {
-                            shape: '#el4'
-                        },
-                        ease: Power1.easeInOut
-                    }).to('#el2', 20, {
-                        rotation: 60,
-                        scaleY: -1,
-                        transformOrigin: 'center',
-                        morphSVG: {
-                            shape: '#el3'
-                        },
-                        ease: Power1.easeInOut
-                    }).to('#el2', 30, {
-                        rotation: -50,
-                        scaleY: 1,
-                        transformOrigin: 'center',
-                        morphSVG: {
-                            shape: '#el5'
-                        },
-                        ease: Power1.easeInOut
-                    }).to('#el2', 10, {
-                        rotation: 10,
-                        scaleY: -1,
-                        transformOrigin: 'center',
-                        morphSVG: {
-                            shape: '#el2'
-                        },
-                        ease: Power1.easeInOut
-                    }).to('#el2', 30, {
-                        rotation: -60,
-                        scaleY: 1,
-                        transformOrigin: 'center',
-                        morphSVG: {
-                            shape: '#el4'
-                        },
-                        ease: Power1.easeInOut
-                    }).to('#el2', 20, {
-                        rotation: 45,
-                        scaleY: 1,
-                        transformOrigin: 'center',
-                        morphSVG: {
-                            shape: '#el3'
-                        },
-                        ease: Power1.easeInOut
-                    });
                     $(".loader").fadeOut('fast', function() {
                         intro.play(0);
                         TweenLite.to('#el2', 0, {
@@ -162,8 +163,21 @@ $(function() {
                             headerOn = true;
                         }
                     } else {
-                        $header.removeClass('visible');
-                        headerOn = false;
+                        if (headerOn) {
+                            $header.removeClass('visible');
+                            headerOn = false;
+                        }
+                    }
+                    if ($body.scrollTop() > docH - height * 1.5) {
+                        if (!gridOn) {
+                            $('#grid').addClass('visible');
+                            gridOn = true;
+                        }
+                    } else {
+                        if (gridOn) {
+                            $('#grid').removeClass('visible');
+                            gridOn = false;
+                        }
                     }
                 });
             });
