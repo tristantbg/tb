@@ -9,8 +9,8 @@ $md = 1023px
 $sm = 767px
 
 // Colors
-$primary ?= #fff
-$secondary ?= #000
+$primary ?= #000
+$secondary ?= #fff
 $accent ?= #ff0000
 
 // Metrics
@@ -19,7 +19,7 @@ $padding = 10px
 // CSS Reset
 global-reset()
 
-webfont('Franklin Gothic', 'franklingothic', true, 'bold')
+webfont('Terminal-Grotesque', 'terminal-grotesque-webfont', true, 'normal')
 
 body,html
 	width 100%
@@ -32,7 +32,25 @@ html
 body
 	text-rendering optimizeLegibility
 	font-smoothing()
-	font-size 1rem
+	font-family 'Terminal-Grotesque', Helvetica Neue, Arial, sans-serif
+	font-size 4rem
+	color $secondary
+
+h1,h3
+	font-size 4rem
+	margin-bottom 1rem
+
+h2
+	font-size 6.5vw
+
+h4
+	text-transform uppercase
+	font-size 2rem
+
+h5, .infos, .link
+	font-size 1.3rem
+	text-transform uppercase
+	letter-spacing .05em
 
 p
 	margin-bottom 1em
@@ -65,3 +83,171 @@ a, a:hover, a:visited, a:focus
 	background $primary url('../../images/loader.gif') center no-repeat
 	background-size 15px
 	z-index 10000
+
+header
+	transition(transform)
+	transform(translate3d(0,-100%,0))
+	padding $padding
+	flexbox()
+	align-items center
+	justify-content space-between
+	position fixed
+	top 0
+	left 0
+	width 100%
+	z-index 200
+
+header.visible
+	transform(none)
+	
+
+#container
+	span(1)
+	position relative
+
+div.infos > span, .list > p, footer > span
+	font-size 1.3rem
+	display inline-block
+	margin-right 1em
+	margin-bottom 0
+
+div.infos > span:last-child, .list > p:last-child, , footer > span:last-child
+	margin-right 0
+		
+span.year::after
+	content '\002014'
+	margin-left 1.2em
+	
+span.checked::after
+	content '\0000D7'
+	text-transform none
+	margin 0 .15em
+	position relative
+	top -.1em
+
+section
+	span(1)
+	position relative
+	text-align center
+	min-height 100vh
+	
+section#landing
+	flexbox()
+	align-items center
+	justify-content center
+	cursor pointer
+
+section#selected-projects
+	padding 0 20%
+	overflow hidden
+	h4
+		margin $padding 0 10rem
+	.project
+		display block
+		margin-bottom 2rem
+		.project-title
+			display inline
+			cursor pointer
+			letter-spacing -.01em
+			margin-bottom .5rem
+			position relative
+			text-shadow 0 0 20px rgba(0,0,0,0.8)
+			z-index 0
+			a
+				display inline-block
+			h2
+				display block
+		.infos
+			margin-top .5rem
+			cursor default
+			flexbox()
+			align-items center
+			justify-content center
+			a
+				cursor pointer
+				//margin 0 .15em
+		.link
+			display none
+			margin-top .5rem
+			position relative
+			mix-blend-mode difference
+			z-index 100
+		.video
+			display none
+			align(vertical)
+			pointer-events none
+			position fixed
+			width 50vw
+			left -50vw
+			z-index 50
+			box-shadow(0px 0px 20px 10px rgba(0,0,0,0.8))
+			.ui
+				display block
+				width 100%
+				border 1px solid rgba(255,255,255,0.5)
+				border-bottom none
+				background $primary
+				height 24px
+				padding 8px
+				li
+					display block
+					float left
+					width 6px
+					height 6px
+					border-radius(10px)
+					margin-right 10px
+					background $secondary
+			img, video
+				display block
+	.project.hover
+		.project-title
+			z-index 100
+		.link, .video
+			display block
+		.infos
+			display none
+
+section#connect
+	flexbox()
+	align-items center
+	justify-content center
+	h3
+		margin-bottom .5rem
+	h3:not(:first-child)
+		margin-top 3rem
+	.list
+		flexbox()
+		align-items center
+		justify-content center
+		text-transform uppercase
+	.number
+		font-size 0.6em
+		margin 0 .2em
+		position relative
+		top -.2em
+
+.galaxy
+	width 100%
+	height 100vh
+	position fixed
+	top 0
+	left 0
+	.st0
+		fill none
+		stroke rgba(255,255,255,.8)
+		stroke-width 0.25
+		stroke-miterlimit 10
+	.hide
+		visibility hidden
+	svg
+		width 100%
+		height 100%
+
+footer
+	span(1)
+	flexbox()
+	align-items center
+	justify-content center
+	position absolute
+	bottom $padding
+	left 0

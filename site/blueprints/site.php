@@ -8,6 +8,9 @@ fields:
   title:
     label: Title
     type:  text
+  tagline:
+    label: Tagline
+    type:  text
   description:
     label: Description
     type:  textarea
@@ -29,3 +32,6 @@ fields:
     type: image
     help: 1200x630px minimum
     width: 1/2
+  contact:
+    label: Contact
+    type: textarea

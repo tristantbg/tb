@@ -1,3 +1,10 @@
+<footer>
+	<span><h5>© <?= date('Y') ?>, All rights reserved</h5></span>
+	<span><h5>Typeface : <a href="https://github.com/raphaelbastide/Terminal-Grotesque" target="_blank">Terminal Grotesque</a></h5></span>
+</footer>
+
+</div>
+
 <?php if(!$site->googleanalytics()->empty()): ?>
   <!-- Google Analytics-->
   <script>

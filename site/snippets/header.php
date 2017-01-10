@@ -69,3 +69,10 @@
 <body>
 
 <div class="loader"></div>
+
+<header>
+	<div id="site-title"><a href="#landing" data-scroll><h4><?= $site->title()->html() ?></h4></a></div>
+	<div id="connect-link"><a href="#connect" data-scroll><h4>Connect</h4></a></div>
+</header>
+
+<div id="container">

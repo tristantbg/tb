@@ -12,5 +12,9 @@
     "grunt-php": "*",
     "jeet": "*",
     "rupture": "*"
+  },
+  "dependencies": {
+    "gsap": "^1.19.0",
+    "smooth-scroll": "github:cferdinandi/smooth-scroll"
   }
 }

@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             plugins: {
-                src: ['assets/oembed/oembed.min.js','lib/history.js/scripts/bundled/html4+html5/jquery.history.js'],
+                src: ['node_modules/gsap/src/minified/TweenMax.min.js', 'assets/js/vendor/MorphSVGPlugin.min.js', 'node_modules/smooth-scroll/dist/js/smooth-scroll.js'],
                 dest: 'assets/js/plugins.concat.js'
             },
             js: {
