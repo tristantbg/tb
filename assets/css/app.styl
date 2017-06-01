@@ -15,6 +15,7 @@ $accent ?= #ff0000
 
 // Metrics
 $padding = 10px
+$stroke = 1px
 
 // CSS Reset
 global-reset()
@@ -35,14 +36,39 @@ body
 	font-family 'Terminal-Grotesque', Helvetica Neue, Arial, sans-serif
 	font-size 4rem
 	color $secondary
+	overflow hidden
 
-h1,h3
+body.landingShown
+	overflow initial
+
+h3
 	font-size 4rem
 	margin-bottom 1rem
+	+below($md)
+		font-size 3.5rem
+
+h1
+	text-transform uppercase
 
 h2
-	font-size 6.5vw
+	font-size 7vw
+	+below($md)
+		font-size 12vw
+	+below($sm)
+		font-size 5rem
 
+h1, h2, h3, h3 a
+	+above($md + 1)
+		color $primary
+		//-webkit-text-stroke 1px $secondary
+		//text-stroke 1px $secondary
+		text-shadow $stroke $stroke 0 $secondary, (-1*$stroke) (-1*$stroke) 0 $secondary, $stroke (-1*$stroke) 0 $secondary, (-1*$stroke) $stroke 0 $secondary
+
+.lt-ie11, .lt-ie9, .lt-ie8, .lt-ie7
+	h1, h2, h3, h3 a
+		+above($md + 1)
+			color $primary
+	
 h4
 	text-transform uppercase
 	font-size 2rem
@@ -51,6 +77,8 @@ h5, .infos, .link
 	font-size 1.3rem
 	text-transform uppercase
 	letter-spacing .05em
+	+below($sm)
+		font-size 1rem
 
 p
 	margin-bottom 1em
@@ -74,15 +102,96 @@ a, a:hover, a:visited, a:focus
 	text-decoration none
 	cursor pointer
 
+.md-hide
+	+below($md)
+		display none
+
+
+#outdated
+	display none
+	text-align center
+	position fixed
+	width 100%
+	height 100%
+	top 0
+	left 0
+	background $primary
+	z-index 900
+	a
+		border-bottom 1px solid
+	.inner
+		padding 8rem 20%
+
+.no-js, .no-svg, .no-flexbox
+	#outdated
+		display block
+
+// @keyframes color {
+//     100%, 0% {
+//         stroke: #40382e
+//     }
+//     40% {
+//         stroke: #0f0f0f
+//     }
+//     66% {
+//         stroke: #40382e
+//     }
+//     80%, 90% {
+//         stroke: #0f0f0f
+//     }
+// }
+
+@keyframes rotate {
+    100% {
+        transform(rotate(360deg))
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0
+    }
+    30% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px
+    }
+}
+
 .loader
 	position fixed
 	width 100%
 	height 100%
 	top 0
 	left 0
-	background $primary url('../../images/loader.gif') center no-repeat
+	//background $primary url('../../images/loader.gif') center no-repeat
+	background $primary
 	background-size 15px
 	z-index 10000
+	.spinner
+		width 70px
+		height 70px
+		align()
+		.circular
+			animation rotate 2s linear infinite
+			height 100%
+			transform-origin center center
+			width 100%
+			position absolute
+			top 0
+			bottom 0
+			left 0
+			right 0
+			margin auto
+			.path
+				stroke $secondary
+				stroke-dasharray 1, 200
+				stroke-dashoffset 0
+				animation dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite
 
 header
 	transition(transform)
@@ -110,6 +219,9 @@ div.infos > span, .list > p, footer > span
 	display inline-block
 	margin-right 1em
 	margin-bottom 0
+	+below($sm)
+		font-size 1rem
+		margin-right .5em
 
 div.infos > span:last-child, .list > p:last-child, , footer > span:last-child
 	margin-right 0
@@ -136,42 +248,57 @@ section#landing
 	align-items center
 	justify-content center
 	cursor pointer
+	h5
+		margin-top .5em
 
 section#selected-projects
 	padding 0 20%
 	overflow hidden
-	h4
+	+below($md)
+		padding 0 4rem
+	+below($sm)
+		padding 0 1rem
+	h5
 		margin $padding 0 10rem
 	.project
 		display block
-		margin-bottom 2rem
+		margin-bottom 3rem
+		+below($sm)
+			margin-bottom 2rem
 		.project-title
+			transition(color, 100ms, ease)
 			display inline
 			cursor pointer
 			letter-spacing -.01em
+			line-height 80%
 			margin-bottom .5rem
 			position relative
-			text-shadow 0 0 20px rgba(0,0,0,0.8)
 			z-index 0
+			+above($md + 1)
+				text-shadow $stroke $stroke 0 $secondary, (-1*$stroke) (-1*$stroke) 0 $secondary, $stroke (-1*$stroke) 0 $secondary, (-1*$stroke) $stroke 0 $secondary, 0 0 20px rgba(0,0,0,0.8)
 			a
 				display inline-block
 			h2
 				display block
 		.infos
-			margin-top .5rem
+			margin-top 1em
 			cursor default
 			flexbox()
 			align-items center
 			justify-content center
+			+below($sm)
+				margin-top .5em
 			a
 				cursor pointer
 				//margin 0 .15em
 		.link
 			display none
-			margin-top .5rem
+			margin-top 1em
 			position relative
 			mix-blend-mode difference
 			z-index 100
+			+below($sm)
+				margin-top .5em
 		.video
 			display none
 			align(vertical)
@@ -197,11 +324,21 @@ section#selected-projects
 					border-radius(10px)
 					margin-right 10px
 					background $secondary
-			img, video
+			img
 				display block
+			video ~ img
+				display none
+				+below($md)
+					display block
+			video
+				display block
+				+below($md)
+					display none
 	.project.hover
 		.project-title
 			z-index 100
+			color $secondary
+			text-shadow 0 0 20px rgba(0,0,0,0.8)
 		.link, .video
 			display block
 		.infos
@@ -215,6 +352,8 @@ section#connect
 		margin-bottom .5rem
 	h3:not(:first-child)
 		margin-top 3rem
+	[data-target]
+		cursor pointer
 	.inner
 		z-index 100
 	.list
@@ -254,33 +393,19 @@ section#connect
 	left 0
 	width 100%
 	height 100%
-	z-index 0
+	z-index 100
 	overflow hidden
-	#grid
-		transition(all, 1s)
-		transform(translate3d(0,100%,0))
+	pointer-events none
+	#discover-images
+		width 100%
 		height 100%
-		width 100%
-		position absolute
-		bottom 0
-		left 0
-		svg
-			position absolute
-			bottom 0
-			left 0
-			width 100%
-			height auto
-	#grid::before
-		content ''
-		position absolute
-		top 0
-		left 0
-		width 100%
-		height 80%
-		background linear-gradient(-180deg, $primary, $primary 60%, rgba(0,0,0,0));
-		z-index 10
-	#grid.visible
-		transform(translate3d(0,0%,0))
+	.discover-item
+		align()
+		visibility hidden
+		top 130%
+		left -100%
+		max-height 700px
+		//box-shadow(0px 0px 15px rgba(0,0,0,0.4))
 
 footer
 	span(1)

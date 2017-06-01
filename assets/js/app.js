@@ -2,9 +2,9 @@
 var width,
     height,
     docH,
+    landing = true,
     isMobile = false,
     headerOn = false,
-    gridOn = false,
     mouse,
     $root = '/';
 $(function() {
@@ -18,11 +18,13 @@ $(function() {
                 $body = $('body');
                 $header = $('header');
                 $selected = $('#selected-projects');
+                $discover = $('#discover-images');
                 app.sizeSet();
+
                 $('.project-title').hover(function() {
                     var parent = $(this).parent().parent();
                     var flying = parent.find('.video').show();
-                    var top = parent.offset().top - $html.scrollTop() - $body.scrollTop() + parent.outerHeight() / 2;
+                    var top = parent.offset().top - $(window).scrollTop() + parent.outerHeight() / 2;
                     parent.addClass('hover');
                     var video = $('video', parent);
                     if (video.length > 0) {
@@ -63,66 +65,97 @@ $(function() {
                     });
                 });
                 $('#landing').click(function(event) {
-                    var anchor = document.querySelector('#selected-projects');
-                    smoothScroll.animateScroll(height / 1.3);
+                    event.preventDefault();
+                    app.landingShown(true);
                 });
-                MorphSVGPlugin.convertToPath("circle, ellipse");
-                var intro = new TimelineMax({
-                    paused: true,
-                    repeat: -1,
-                    yoyo: true
+                $('#landing').bind('mousewheel', function(evt) {
+                    if (landing) {
+                        var delta = evt.originalEvent.wheelDelta;
+                        if (delta < -10) {
+                            app.landingShown();
+                        }
+                    }
                 });
-                intro.to('#el2', 10, {
-                    rotation: -180,
-                    transformOrigin: 'center',
-                    morphSVG: {
-                        shape: '#el4'
-                    },
-                    ease: Power1.easeInOut
-                }).to('#el2', 20, {
-                    rotation: 60,
-                    scaleY: -1,
-                    transformOrigin: 'center',
-                    morphSVG: {
-                        shape: '#el3'
-                    },
-                    ease: Power1.easeInOut
-                }).to('#el2', 30, {
-                    rotation: -50,
-                    scaleY: 1,
-                    transformOrigin: 'center',
-                    morphSVG: {
-                        shape: '#el5'
-                    },
-                    ease: Power1.easeInOut
-                }).to('#el2', 10, {
-                    rotation: 10,
-                    scaleY: -1,
-                    transformOrigin: 'center',
-                    morphSVG: {
-                        shape: '#el2'
-                    },
-                    ease: Power1.easeInOut
-                }).to('#el2', 30, {
-                    rotation: -60,
-                    scaleY: 1,
-                    transformOrigin: 'center',
-                    morphSVG: {
-                        shape: '#el4'
-                    },
-                    ease: Power1.easeInOut
-                }).to('#el2', 20, {
-                    rotation: 45,
-                    scaleY: 1,
-                    transformOrigin: 'center',
-                    morphSVG: {
-                        shape: '#el3'
-                    },
-                    ease: Power1.easeInOut
+                $('span[data-target]').click(function() {
+                    app.discover($(this).data('target'));
                 });
+                // $('[data-target]').hover(function() {
+                //   app.discover($(this).data('target'));
+                // }, function() {
+                //   return false;
+                // });
+                $(document).bind('keyup', function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code == 49) {
+                        app.discover(1);
+                    }
+                    if (code == 50) {
+                        app.discover(2);
+                    }
+                    if (code == 51) {
+                        app.discover(3);
+                    }
+                });
+                // MorphSVGPlugin.convertToPath("circle, ellipse");
+                // var intro = new TimelineMax({
+                //     paused: true,
+                //     repeat: -1,
+                //     yoyo: true
+                // });
+                // intro.to('#el2', 10, {
+                //     rotation: -180,
+                //     transformOrigin: 'center',
+                //     morphSVG: {
+                //         shape: '#el4'
+                //     },
+                //     ease: Power1.easeInOut
+                // }).to('#el2', 20, {
+                //     rotation: 60,
+                //     scaleY: -1,
+                //     transformOrigin: 'center',
+                //     morphSVG: {
+                //         shape: '#el3'
+                //     },
+                //     ease: Power1.easeInOut
+                // }).to('#el2', 30, {
+                //     rotation: -50,
+                //     scaleY: 1,
+                //     transformOrigin: 'center',
+                //     morphSVG: {
+                //         shape: '#el5'
+                //     },
+                //     ease: Power1.easeInOut
+                // }).to('#el2', 10, {
+                //     rotation: 10,
+                //     scaleY: -1,
+                //     transformOrigin: 'center',
+                //     morphSVG: {
+                //         shape: '#el2'
+                //     },
+                //     ease: Power1.easeInOut
+                // }).to('#el2', 30, {
+                //     rotation: -60,
+                //     scaleY: 1,
+                //     transformOrigin: 'center',
+                //     morphSVG: {
+                //         shape: '#el4'
+                //     },
+                //     ease: Power1.easeInOut
+                // }).to('#el2', 20, {
+                //     rotation: 45,
+                //     scaleY: 1,
+                //     transformOrigin: 'center',
+                //     morphSVG: {
+                //         shape: '#el3'
+                //     },
+                //     ease: Power1.easeInOut
+                // });
                 $(window).load(function() {
                     $(".loader").fadeOut('fast', function() {
-                        intro.play(0);
+                        setTimeout(function() {
+                            app.landingShown();
+                        }, 1300);
+                        //intro.play(0);
                         TweenLite.to('#el2', 0, {
                             scaleY: 0,
                             autoAlpha: 1,
@@ -134,6 +167,7 @@ $(function() {
                             transformOrigin: 'center',
                             ease: Expo.easeOut
                         });
+                        app.deferImages();
                     });
                 });
                 // $(window).on("mousemove", function(event) {
@@ -151,7 +185,7 @@ $(function() {
                     //         yPercent: bgYPos
                     //     });
                     // }
-                    if ($body.scrollTop() > height / 1.9) {
+                    if ($(window).scrollTop() > height / 1.9) {
                         if (!headerOn) {
                             $header.addClass('visible');
                             //   var reveal = window.baffle('header h4', {
@@ -168,19 +202,50 @@ $(function() {
                             headerOn = false;
                         }
                     }
-                    if ($body.scrollTop() > docH - height * 1.5) {
-                        if (!gridOn) {
-                            $('#grid').addClass('visible');
-                            gridOn = true;
-                        }
-                    } else {
-                        if (gridOn) {
-                            $('#grid').removeClass('visible');
-                            gridOn = false;
-                        }
-                    }
                 });
             });
+        },
+        landingShown: function(overwrite) {
+            if (landing || overwrite) {
+                landing = false;
+                var anchor = document.querySelector('#selected-projects');
+                smoothScroll.animateScroll(height / 1.3);
+                setTimeout(function() {
+                    $body.addClass('landingShown');
+                }, 1500);
+            }
+        },
+        discover: function(num) {
+            var collection = discover[num - 1];
+            if (collection.length > 0) {
+                var url = collection.rand();
+                var h = rand(10, 33);
+                var $img = $('<img class="discover-item" src="' + url + '" height="' + 60 + '%">').appendTo($discover);
+                $img.load(function() {
+                    TweenLite.fromTo($(this), 1.5, {
+                        autoAlpha: 1,
+                        left: rand(width / 6, width - $(this).outerWidth() / 2),
+                        rotation: rand(-20, 20),
+                        force3D: true
+                    }, {
+                        top: "50%",
+                        rotation: rand(-10, 10),
+                        force3D: true,
+                        ease: Expo.easeOut,
+                        onComplete: function() {
+                            TweenLite.to($img, 2, {
+                                top: "130%",
+                                rotation: rand(-20, 20),
+                                force3D: true,
+                                ease: Expo.easeIn,
+                                onComplete: function() {
+                                    $img.remove();
+                                }
+                            });
+                        }
+                    });
+                });
+            }
         },
         sizeSet: function() {
             width = $(window).width();
@@ -193,6 +258,24 @@ $(function() {
                     isMobile = false;
                 }
             }
+        },
+        distortContent: function() {
+            var scrollTime = 0.7; //Scroll time
+            var scrollDistance = 70; //Distance. Use smaller value for shorter scroll and greater value for longer scroll
+            $(window).on("mousewheel DOMMouseScroll", function(event) {
+                //event.preventDefault();
+                var delta = event.originalEvent.wheelDelta / 120 || -event.originalEvent.detail / 3;
+                console.log(delta);
+                //var scrollTop = $window.scrollTop();
+                //var finalScroll = scrollTop - parseInt(delta * scrollDistance);
+                TweenMax.to($('#selected-projects'), scrollTime, {
+                    skewY: 10 * delta,
+                    transformOrigin: 'center',
+                    ease: Power1.easeOut,
+                    //autoKill: true,
+                    overwrite: 5
+                });
+            });
         },
         goIndex: function() {
             History.pushState({
@@ -222,3 +305,6 @@ $(function() {
 function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+Array.prototype.rand = function() {
+    return this[Math.floor(Math.random() * this.length)];
+};

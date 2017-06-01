@@ -1,5 +1,12 @@
 <!DOCTYPE html>
+
+<!--[if lt IE 7]><html lang="en" class="no-js" lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="en" class="no-js" lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="en" class="no-js" lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
 <html lang="en" class="no-js">
+<!--<![endif]-->
+
 <head>
 
 	<meta charset="UTF-8" />
@@ -68,7 +75,20 @@
 </head>
 <body>
 
-<div class="loader"></div>
+<div id="outdated">
+	<div class="inner">
+	<p class="browserupgrade">You are using an <strong>outdated</strong> browser.
+	<br>Please <a href="http://outdatedbrowser.com" target="_blank">upgrade your browser</a> to improve your experience.</p>
+	</div>
+</div>
+
+<div class="loader">
+	<div class="spinner">
+		<svg class="circular" viewBox="25 25 50 50">
+		<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
+		</svg>
+	</div>
+</div>
 
 <header>
 	<div id="site-title"><a href="#landing" data-scroll><h4><?= $site->title()->html() ?></h4></a></div>
