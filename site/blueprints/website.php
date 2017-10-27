@@ -24,11 +24,16 @@ fields:
     label: Video
     type: select
     options: files
-    width: 1/2
+    width: 1/3
+  videofilewebm:
+    label: Video webm
+    type: select
+    options: files
+    width: 1/3
   featured:
     label: Image
     type: image
-    width: 1/2
+    width: 1/3
   dev:
     label: Development ?
     type: toggle

@@ -20,7 +20,6 @@ $(function() {
                 $selected = $('#selected-projects');
                 $discover = $('#discover-images');
                 app.sizeSet();
-
                 $('.project-title').hover(function() {
                     var parent = $(this).parent().parent();
                     var flying = parent.find('.video').show();
@@ -68,14 +67,18 @@ $(function() {
                     event.preventDefault();
                     app.landingShown(true);
                 });
-                $('#landing').bind('mousewheel', function(evt) {
-                    if (landing) {
-                        var delta = evt.originalEvent.wheelDelta;
-                        if (delta < -10) {
-                            app.landingShown();
+                if (!isMobile) {
+                    $('#landing').bind('mousewheel', function(evt) {
+                        if (landing) {
+                            var delta = evt.originalEvent.wheelDelta;
+                            if (delta < -10) {
+                                app.landingShown();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    $body.addClass('landingShown');
+                }
                 $('span[data-target]').click(function() {
                     app.discover($(this).data('target'));
                 });
@@ -152,9 +155,11 @@ $(function() {
                 // });
                 $(window).load(function() {
                     $(".loader").fadeOut('fast', function() {
-                        setTimeout(function() {
-                            app.landingShown();
-                        }, 1300);
+                        if (!isMobile) {
+                            setTimeout(function() {
+                                app.landingShown();
+                            }, 1300);
+                        }
                         //intro.play(0);
                         TweenLite.to('#el2', 0, {
                             scaleY: 0,

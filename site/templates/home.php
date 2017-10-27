@@ -59,8 +59,11 @@
 			<!-- <ul class="ui"><li></li><li></li><li></li></ul> -->
 			<?php if($website->featured()->isNotEmpty() && $website->videofile()->isNotEmpty()): ?>
 				<video autobuffer loop muted poster="<?= resizeOnDemand($website->featured()->toFile(), 1000) ?>" width="100%" height="100%">
-				  <source src="<?= $website->videofile()->toFile()->url() ?>" type="video/mp4">
-				  Your browser does not support the video tag.
+					<?php if ($website->videofilewebm()->isNotEmpty()): ?>
+						<source src="<?= $website->videofilewebm()->toFile()->url() ?>" type="video/webm">
+					<?php endif ?>
+				  	<source src="<?= $website->videofile()->toFile()->url() ?>" type="video/mp4">
+				  	Your browser does not support the video tag.
 				</video>
 			<?php endif ?>
 			<?php if ($website->featured()->isNotEmpty()): ?>
