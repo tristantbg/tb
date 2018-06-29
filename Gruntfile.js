@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             plugins: {
-                src: ['node_modules/gsap/src/minified/TweenMax.min.js', 'assets/js/vendor/MorphSVGPlugin.min.js', 'node_modules/smooth-scroll/dist/js/smooth-scroll.js'],
+                src: ['node_modules/smooth-scroll/dist/smooth-scroll.js', 'node_modules/lazysizes/lazysizes.js', 'node_modules/gsap/src/minified/TweenMax.min.js', 'assets/js/vendor/MorphSVGPlugin.min.js'],
                 dest: 'assets/js/plugins.concat.js'
             },
             js: {

@@ -6,6 +6,7 @@ var width,
     isMobile = false,
     headerOn = false,
     mouse,
+    smoothScroll,
     $root = '/';
 $(function() {
     var app = {
@@ -22,7 +23,7 @@ $(function() {
                 app.sizeSet();
                 $('.project-title').hover(function() {
                     var parent = $(this).parent().parent();
-                    var flying = parent.find('.video').show();
+                    var flying = parent.find('.video').css('visibility', 'visible');
                     var top = parent.offset().top - $(window).scrollTop() + parent.outerHeight() / 2;
                     parent.addClass('hover');
                     var video = $('video', parent);
@@ -41,7 +42,7 @@ $(function() {
                         force3D: true,
                         ease: SlowMo.ease.config(0.95, 0.72, false),
                         onComplete: function() {
-                            flying.hide();
+                            flying.css('visibility', 'hidden');
                         }
                     });
                 }, function() {
@@ -59,7 +60,7 @@ $(function() {
                         force3D: true,
                         ease: Power2.easeIn,
                         onComplete: function() {
-                            flying.hide();
+                            flying.css('visibility', 'hidden');
                         }
                     });
                 });
@@ -172,13 +173,13 @@ $(function() {
                             transformOrigin: 'center',
                             ease: Expo.easeOut
                         });
-                        app.deferImages();
+                        // app.deferImages();
                     });
                 });
                 // $(window).on("mousemove", function(event) {
                 //     mouse = event.pageY - $body.scrollTop();
                 // });
-                smoothScroll.init({
+                smoothScroll = new SmoothScroll('a[data-scroll]',{
                     speed: 1500,
                     easing: 'easeInOutCubic',
                 });
@@ -296,10 +297,16 @@ $(function() {
             });
         },
         deferImages: function() {
-            var imgDefer = document.getElementsByTagName('img');
+            // var imgDefer = document.getElementsByTagName('img');
+            // for (var i = 0; i < imgDefer.length; i++) {
+            //     if (imgDefer[i].getAttribute('data-src')) {
+            //         imgDefer[i].setAttribute('src', imgDefer[i].getAttribute('data-src'));
+            //     }
+            // }
+            var imgDefer = document.getElementsByTagName('video');
             for (var i = 0; i < imgDefer.length; i++) {
-                if (imgDefer[i].getAttribute('data-src')) {
-                    imgDefer[i].setAttribute('src', imgDefer[i].getAttribute('data-src'));
+                if (imgDefer[i].getAttribute('data-poster')) {
+                    imgDefer[i].setAttribute('poster', imgDefer[i].getAttribute('data-src'));
                 }
             }
         }

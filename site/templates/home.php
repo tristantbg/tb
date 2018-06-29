@@ -58,7 +58,7 @@
 			<div class="video">
 			<!-- <ul class="ui"><li></li><li></li><li></li></ul> -->
 			<?php if($website->featured()->isNotEmpty() && $website->videofile()->isNotEmpty()): ?>
-				<video autobuffer loop muted poster="<?= resizeOnDemand($website->featured()->toFile(), 1000) ?>" width="100%" height="100%">
+				<video preload="none" loop muted data-poster="<?= resizeOnDemand($website->featured()->toFile(), 1000) ?>" width="100%" height="100%">
 					<?php if ($website->videofilewebm()->isNotEmpty()): ?>
 						<source src="<?= $website->videofilewebm()->toFile()->url() ?>" type="video/webm">
 					<?php endif ?>
@@ -67,9 +67,9 @@
 				</video>
 			<?php endif ?>
 			<?php if ($website->featured()->isNotEmpty()): ?>
-				<img data-src="<?= resizeOnDemand($website->featured()->toFile(), 1000) ?>" alt="<?= $website->title()->html() ?>" width="100%" height="auto">
+				<img class="lazyload" data-src="<?= resizeOnDemand($website->featured()->toFile(), 1000) ?>" alt="<?= $website->title()->html() ?>" width="100%" height="auto">
 			<?php else: ?>
-				<img data-src="http://placehold.it/300x150" alt="<?= $website->title()->html() ?>" width="100%" height="auto">
+				<img class="lazyload" data-src="http://placehold.it/300x150" alt="<?= $website->title()->html() ?>" width="100%" height="auto">
 			<?php endif ?>
 			</div>
 		</div>

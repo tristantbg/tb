@@ -1,5 +1,5 @@
 @import 'nib'
-@import '../../node_modules/jeet/stylus/jeet/*'
+@import '../../node_modules/jeet/jeet.styl'
 @import '_mixins.styl'
 
 // Media queries
@@ -300,14 +300,14 @@ section#selected-projects
 			+below($sm)
 				margin-top .5em
 		.video
-			display none
+			visibility hidden
 			align(vertical)
 			pointer-events none
 			position fixed
 			width 50vw
-			left -50vw
+			left -51vw
 			z-index 50
-			box-shadow(0px 0px 20px 10px rgba(0,0,0,0.8))
+			box-shadow 0px 0px 20px 10px rgba(0,0,0,0.8)
 			.ui
 				display block
 				width 100%
@@ -325,7 +325,7 @@ section#selected-projects
 					margin-right 10px
 					background $secondary
 			img
-				display block
+				visibility visible
 			video ~ img
 				display none
 				+below($md)
